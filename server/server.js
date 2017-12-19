@@ -1,10 +1,21 @@
 const path = require('path');
 const express = require('express');
+const socketIO = require('socket.io');
+const http = require('http');
 var PUBLICPATH = path.join(__dirname,'../public');
 const PORT = process.env.PORT || 3000;
 var app = express();
 app.use(express.static(PUBLICPATH));
+var server = http.createServer(app);
+var io = socketIO(server);
 
-app.listen(PORT,()=>{
+io.on('connection',(socket)=>{
+  console.log("new user connected");
+  socket.on('disconnect',()=>{
+    console.log("user was disconnected.");
+  });
+});
+
+server.listen(PORT,()=>{
   console.log(`chat application running at PORT ${PORT}...`);
 })
