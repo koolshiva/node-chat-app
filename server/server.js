@@ -11,8 +11,24 @@ var io = socketIO(server);
 
 io.on('connection',(socket)=>{
   console.log("new user connected");
+
+  //welcome when a new user joins
+  socket.emit('newMessage',{from:"admin",text:"Welcome to the chat!"});
+
+  //inform users when a new user joins
+  socket.broadcast.emit('newMessage',{from:"admin",text:"New User has joined"});
+
+  //when a socket disconnects
   socket.on('disconnect',()=>{
     console.log("user was disconnected.");
+  });
+
+  //when a new message is emitted
+  socket.on('createMessage',(newMessage)=>{
+    var newMsgWithDate = newMessage;
+    console.log(newMessage);
+    newMsgWithDate.createdAt = new Date();
+    io.emit('newMessage',newMsgWithDate);
   });
 });
 
