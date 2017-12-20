@@ -6,9 +6,10 @@ socket.on('connect',function(){
 socket.on('newMessage',function(newMsg){
   console.log(newMsg);
   var formattedTime = moment(newMsg.createdAt).format('h:mm a');
-  var li = jQuery('<li></li>')
-  li.text(`${newMsg.from} @ ${formattedTime}: ${newMsg.text}`);
-  jQuery('#messages').append(li);
+  var template = jQuery('#message-template').html();
+  newMsg.createdAt=formattedTime;
+  var html = Mustache.render(template,newMsg);
+  jQuery('#messages').append(html);
 });
 socket.on('disconnect',function(){
   console.log("connection to server lost.");
@@ -17,12 +18,10 @@ socket.on('disconnect',function(){
 socket.on('newLocationMessage',function(newMsg){
   console.log(newMsg);
   var formattedTime = moment(newMsg.createdAt).format('h:mm a');
-  var li = jQuery('<li></li>');
-  var a = jQuery('<a target="_blank">My Current Location</a>');
-  li.text(`${newMsg.from} @ ${formattedTime}: `);
-  a.attr('href',newMsg.url);
-  li.append(a);
-  jQuery('#messages').append(li);
+  var template = jQuery('#location-message-template').html();
+  newMsg.createdAt=formattedTime;
+  var html = Mustache.render(template,newMsg);
+  jQuery('#messages').append(html);
 });
 
 jQuery('#message-form').on('submit',function(e){
