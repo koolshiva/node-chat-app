@@ -30,7 +30,7 @@ io.on('connection',(socket)=>{
     console.log(newMessage);
     newMsgWithDate.createdAt = new Date();
     io.emit('newMessage',message.generateMessage(newMessage.from,newMessage.text));
-    callback("Your message reached the server");
+    callback();
   });
 
   socket.on('createLocationMessage',(coords)=>{
