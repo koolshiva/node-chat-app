@@ -25,11 +25,12 @@ io.on('connection',(socket)=>{
   });
 
   //when a new message is emitted
-  socket.on('createMessage',(newMessage)=>{
+  socket.on('createMessage',(newMessage,callback)=>{
     var newMsgWithDate = newMessage;
     console.log(newMessage);
     newMsgWithDate.createdAt = new Date();
     io.emit('newMessage',message.generateMessage(newMessage.from,newMessage.text));
+    callback("Your message reached the server");
   });
 });
 
