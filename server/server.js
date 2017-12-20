@@ -32,6 +32,10 @@ io.on('connection',(socket)=>{
     io.emit('newMessage',message.generateMessage(newMessage.from,newMessage.text));
     callback("Your message reached the server");
   });
+
+  socket.on('createLocationMessage',(coords)=>{
+    io.emit('newLocationMessage',message.generateLocationMessage('Admin',coords.latitude,coords.longitude));
+  });
 });
 
 server.listen(PORT,()=>{
