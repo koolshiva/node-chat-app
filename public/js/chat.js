@@ -62,7 +62,7 @@ socket.on('newLocationMessage',function(newMsg){
 jQuery('#message-form').on('submit',function(e){
   e.preventDefault();
   var textBox = jQuery('[name=message]');
-  socket.emit('createMessage',{from:"sam",text:textBox.val()},function(){
+  socket.emit('createMessage',{text:textBox.val()},function(){
     textBox.val('');
   });
 });
